@@ -9,16 +9,16 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: 'var(--primary-50)',
-          100: 'var(--primary-100)',
-          200: 'var(--primary-200)',
-          300: 'var(--primary-300)',
-          400: 'var(--primary-400)',
-          500: 'var(--primary-500)',
-          600: 'var(--primary-600)',
-          700: 'var(--primary-700)',
-          800: 'var(--primary-800)',
-          900: 'var(--primary-900)',
+          50: '#f0f4ff',
+          100: '#e1e9ff',
+          200: '#cbd9ff',
+          300: '#a3bcff',
+          400: '#7395ff',
+          500: '#1e3a8a',
+          600: '#1e3a8a',
+          700: '#172e6e',
+          800: '#112252',
+          900: '#0c183b',
         },
         emerald: {
           500: '#10b981', // Approved
