@@ -146,7 +146,7 @@ export default function ProjectDetail() {
                     <span>Request Sketch Approval</span>
                   </button>
                 )}
-                {user?.role === 'admin' && project.sketchApproved && !project.architecturalApproved && (
+                {[ROLES.ADMIN, ROLES.PROJECT_MANAGER].includes(user?.role) && project.sketchApproved && !project.architecturalApproved && (
                   <button
                     onClick={() => alert('Architectural design approved successfully.')}
                     className="btn-primary flex items-center space-x-2"
@@ -280,7 +280,7 @@ export default function ProjectDetail() {
           )}
 
           {/* Receipt Section */}
-          {(isClient || user?.role === 'admin') && (
+          {(isClient || [ROLES.ADMIN, ROLES.PROJECT_MANAGER].includes(user?.role)) && (
             <div className="card dark:bg-gray-800 dark:border-gray-700">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 flex items-center space-x-3">
@@ -318,7 +318,7 @@ export default function ProjectDetail() {
                     <img src={project.receiptUrl} alt="Payment Receipt" className="w-full h-full object-cover" />
                   </div>
 
-                  {user?.role === 'admin' && !project.receiptVerified && (
+                  {[ROLES.ADMIN, ROLES.PROJECT_MANAGER].includes(user?.role) && !project.receiptVerified && (
                     <div className="flex items-center space-x-4">
                       <button
                         onClick={() => mockAPI.verifyReceipt(project.id, true).then(updated => setProject(updated))}
@@ -357,11 +357,15 @@ export default function ProjectDetail() {
                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">{t('projectManager')}</p>
                   <div className="flex items-center space-x-4 p-3 bg-primary-50 dark:bg-primary-900/20 rounded-2xl border border-primary-100 dark:border-primary-800">
                     <div className="w-12 h-12 bg-primary-600 text-white rounded-xl flex items-center justify-center font-black text-lg shadow-lg">
-                      AM
+                      {teamMembers.find(m => m.id === project.managerId)?.name.charAt(0) || 'PM'}
                     </div>
                     <div>
-                      <p className="font-bold text-gray-900 dark:text-gray-100">Ahmed Al-Mansoori</p>
-                      <p className="text-xs text-primary-600 font-bold uppercase tracking-widest">Admin</p>
+                      <p className="font-bold text-gray-900 dark:text-gray-100">
+                        {teamMembers.find(m => m.id === project.managerId)?.name || 'Project Manager'}
+                      </p>
+                      <p className="text-xs text-primary-600 font-bold uppercase tracking-widest">
+                        {teamMembers.find(m => m.id === project.managerId)?.role || 'Manager'}
+                      </p>
                     </div>
                   </div>
                 </div>

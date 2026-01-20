@@ -42,7 +42,7 @@ let projects = [
     startDate: '2024-03-01',
     endDate: '2025-06-30',
     progress: 10,
-    managerId: '1',
+    managerId: 'pm1',
     teamMembers: ['2', '3', '4'],
     clientId: '6',
     paymentStatus: 'pending',
@@ -72,9 +72,19 @@ let users = [
     email: 'ahmed@takamul.com',
     phone: '+251 911 234 567',
     password: 'password123',
-    role: 'admin', // Project Manager
+    role: 'admin', // System Admin
     avatar: 'https://i.pravatar.cc/150?u=ahmed',
     joinedAt: '2023-01-15T10:00:00Z',
+  },
+  {
+    id: 'pm1',
+    name: 'Sara Al-Amri',
+    email: 'sara@takamul.com',
+    phone: '+251 988 765 432',
+    password: 'password123',
+    role: 'project-manager',
+    avatar: 'https://i.pravatar.cc/150?u=sara',
+    joinedAt: '2024-01-01T10:00:00Z',
   },
   {
     id: '2',
@@ -175,7 +185,7 @@ let conversations = [
     id: 'conv2',
     participantId: '1',
     participantName: 'Ahmed Al-Mansoori',
-    lastMessage: 'Please schedule the meeting for tomorrow.',
+    lastMessage: 'The new users have been added to the system.',
     updatedAt: new Date().toISOString(),
   }
 ]
@@ -507,6 +517,10 @@ export const mockAPI = {
 
     if (userRole === 'client') {
       filteredProjects = projects.filter(p => p.clientId === userId)
+      const projectIds = filteredProjects.map(p => p.id)
+      filteredTasks = tasks.filter(t => projectIds.includes(t.projectId))
+    } else if (userRole === 'project-manager') {
+      filteredProjects = projects.filter(p => p.managerId === userId)
       const projectIds = filteredProjects.map(p => p.id)
       filteredTasks = tasks.filter(t => projectIds.includes(t.projectId))
     } else if (['architect', 'civil-engineer', 'electrical-engineer', 'hydraulic-engineer'].includes(userRole)) {

@@ -63,14 +63,14 @@ export default function ProjectManagerDashboard({ user, stats, projects, tasks, 
                     <div className="card dark:bg-slate-800">
                         <h3 className="text-lg font-black mb-6 dark:text-white flex items-center space-x-2">
                             <ShieldCheck className="text-primary-600" size={20} />
-                            <span>System Configurations</span>
+                            <span>Project Management Center</span>
                         </h3>
                         <div className="space-y-4">
                             {[
-                                { name: 'User Management', path: '/app/team' },
-                                { name: 'Roles & Permissions', path: '/app/settings' },
-                                { name: 'Audit Logs', path: '/app/dashboard' },
-                                { name: 'API Settings', path: '/app/settings' }
+                                { name: 'Assign Tech Staff', path: '/app/team' },
+                                { name: 'Confirm Payments', path: '/app/projects' },
+                                { name: 'Monitor Deadlines', path: '/app/tasks' },
+                                { name: 'Assign Messenger', path: '/app/projects' }
                             ].map(item => (
                                 <button
                                     key={item.name}

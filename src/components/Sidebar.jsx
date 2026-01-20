@@ -30,11 +30,11 @@ export default function Sidebar() {
   const { language, changeLanguage, t } = useLanguage()
 
   const allNavItems = [
-    { name: t('projects'), path: '/app/projects', icon: FolderKanban, roles: [ROLES.ADMIN, ROLES.ARCHITECT, ROLES.CIVIL_ENGINEER, ROLES.ELECTRICAL_ENGINEER, ROLES.HYDRAULIC_ENGINEER, ROLES.CLIENT] },
-    { name: t('tasks'), path: '/app/tasks', icon: ListTodo, roles: [ROLES.ADMIN, ROLES.ARCHITECT, ROLES.CIVIL_ENGINEER, ROLES.ELECTRICAL_ENGINEER, ROLES.HYDRAULIC_ENGINEER] },
+    { name: t('projects'), path: '/app/projects', icon: FolderKanban, roles: [ROLES.ADMIN, ROLES.PROJECT_MANAGER, ROLES.ARCHITECT, ROLES.CIVIL_ENGINEER, ROLES.ELECTRICAL_ENGINEER, ROLES.HYDRAULIC_ENGINEER, ROLES.CLIENT] },
+    { name: t('tasks'), path: '/app/tasks', icon: ListTodo, roles: [ROLES.ADMIN, ROLES.PROJECT_MANAGER, ROLES.ARCHITECT, ROLES.CIVIL_ENGINEER, ROLES.ELECTRICAL_ENGINEER, ROLES.HYDRAULIC_ENGINEER] },
     { name: t('team'), path: '/app/team', icon: Users, roles: [ROLES.ADMIN] },
-    { name: t('messages'), path: '/app/messages', icon: MessageSquare, roles: [ROLES.ADMIN, ROLES.ARCHITECT, ROLES.CLIENT, ROLES.MESSENGER] },
-    { name: t('profile'), path: '/app/profile', icon: UserIcon, roles: [ROLES.ADMIN, ROLES.ARCHITECT, ROLES.CIVIL_ENGINEER, ROLES.ELECTRICAL_ENGINEER, ROLES.HYDRAULIC_ENGINEER, ROLES.CLIENT, ROLES.MESSENGER] },
+    { name: t('messages'), path: '/app/messages', icon: MessageSquare, roles: [ROLES.ADMIN, ROLES.PROJECT_MANAGER, ROLES.ARCHITECT, ROLES.CLIENT, ROLES.MESSENGER] },
+    { name: t('profile'), path: '/app/profile', icon: UserIcon, roles: [ROLES.ADMIN, ROLES.PROJECT_MANAGER, ROLES.ARCHITECT, ROLES.CIVIL_ENGINEER, ROLES.ELECTRICAL_ENGINEER, ROLES.HYDRAULIC_ENGINEER, ROLES.CLIENT, ROLES.MESSENGER] },
     { name: t('settings'), path: '/app/settings', icon: Settings, roles: [ROLES.ADMIN] },
   ]
 

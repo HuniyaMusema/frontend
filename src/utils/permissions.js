@@ -1,6 +1,7 @@
 // Role definitions and permissions
 export const ROLES = {
-  ADMIN: 'admin',
+  ADMIN: 'admin', // System Admin
+  PROJECT_MANAGER: 'project-manager',
   ARCHITECT: 'architect',
   CIVIL_ENGINEER: 'civil-engineer',
   ELECTRICAL_ENGINEER: 'electrical-engineer',
@@ -14,17 +15,27 @@ export const hasPermission = (userRole, permission) => {
   const permissions = {
     [ROLES.ADMIN]: [
       'view-all-projects',
-      'create-project',
-      'edit-project',
-      'delete-project',
       'view-analytics',
       'manage-users',
       'edit-profile',
-      'view-all-tasks',
+      'view-settings',
+    ],
+    [ROLES.PROJECT_MANAGER]: [
+      'view-assigned-projects',
+      'create-project',
+      'edit-project',
+      'manage-assigned-projects',
+      'confirm-payments',
+      'monitor-deadlines',
+      'assign-messenger',
+      'assign-tech-staff',
+      'view-tasks',
       'create-task',
       'edit-any-task',
-      'delete-task',
-      'view-settings',
+      'view-team',
+      'edit-profile',
+      'send-message-client',
+      'view-all-tasks',
     ],
     [ROLES.ARCHITECT]: [
       'view-assigned-projects',
@@ -83,17 +94,17 @@ export const canViewProject = (userRole, project) => {
 
 export const canEditTask = (userRole, task) => {
   if (hasPermission(userRole, 'edit-any-task')) return true
-  
+
   // Engineers can only edit their specific technical tasks
   if (userRole === ROLES.CIVIL_ENGINEER && task.category === 'civil') return true
   if (userRole === ROLES.ELECTRICAL_ENGINEER && task.category === 'electrical') return true
   if (userRole === ROLES.HYDRAULIC_ENGINEER && task.category === 'hydraulic') return true
-  
+
   // Architects can edit assigned tasks
   if (userRole === ROLES.ARCHITECT && hasPermission(userRole, 'edit-assigned-tasks')) {
     return true
   }
-  
+
   return false
 }
 

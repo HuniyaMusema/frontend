@@ -10,6 +10,7 @@ import ClientDashboard from './dashboards/ClientDashboard'
 import ArchitectDashboard from './dashboards/ArchitectDashboard'
 import EngineerDashboard from './dashboards/EngineerDashboard'
 import MessengerDashboard from './dashboards/MessengerDashboard'
+import AdminDashboard from './dashboards/AdminDashboard'
 
 export default function Dashboard() {
   const { user } = useAuth()
@@ -93,7 +94,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {user?.role === ROLES.ADMIN && <ProjectManagerDashboard {...dashboardProps} />}
+      {user?.role === ROLES.ADMIN && <AdminDashboard {...dashboardProps} />}
+      {user?.role === ROLES.PROJECT_MANAGER && <ProjectManagerDashboard {...dashboardProps} />}
       {user?.role === ROLES.CLIENT && <ClientDashboard {...dashboardProps} />}
       {user?.role === ROLES.ARCHITECT && <ArchitectDashboard {...dashboardProps} />}
       {[ROLES.CIVIL_ENGINEER, ROLES.ELECTRICAL_ENGINEER, ROLES.HYDRAULIC_ENGINEER].includes(user?.role) && <EngineerDashboard {...dashboardProps} />}
