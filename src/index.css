@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-main: 'Inter', sans-serif;
+    --font-display: 'Outfit', sans-serif;
+    --primary-50: #f0f4ff;
+    --primary-100: #e1e9ff;
+    --primary-200: #cbd9ff;
+    --primary-300: #a3bcff;
+    --primary-400: #7395ff;
+    --primary-500: #1e3a8a;
+    --primary-600: #1e3a8a;
+    --primary-700: #172e6e;
+    --primary-800: #112252;
+    --primary-900: #0c183b;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 transition-colors duration-300;
+    font-family: var(--font-main);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-slate-900 dark:text-slate-100;
+    font-family: var(--font-display);
+  }
+
+  .dark body {
+    @apply bg-slate-900 text-slate-100;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 text-white px-6 py-3 rounded-2xl hover:bg-primary-700 transition-all duration-300 font-extrabold active:scale-[0.98] shadow-xl shadow-primary-600/30 uppercase tracking-widest text-xs;
+  }
+
+  .btn-secondary {
+    @apply bg-slate-200 text-slate-800 px-6 py-3 rounded-2xl hover:bg-slate-300 transition-all duration-300 font-extrabold dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 text-xs uppercase tracking-widest;
+  }
+
+  .input-field {
+    @apply w-full px-5 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 placeholder-slate-400 font-medium;
+  }
+
+  .card {
+    @apply bg-white dark:bg-slate-800 rounded-3xl shadow-2xl shadow-slate-200/60 dark:shadow-none p-10 border border-slate-100 dark:border-slate-700 transition-all duration-300;
+  }
+}
