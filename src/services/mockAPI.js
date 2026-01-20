@@ -465,7 +465,7 @@ export const mockAPI = {
   },
 
   // Messaging (New Conversational Structure)
-  async getConversations(userId) {
+  async getConversations() {
     await delay()
     // In real app, we would filter based on userId
     return conversations
