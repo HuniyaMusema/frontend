@@ -16,7 +16,7 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-20">
+    <header className="bg-white dark:bg-slate-800 shadow-sm border-b border-gray-200 dark:border-slate-700 sticky top-0 z-20">
       <div className="px-6 py-4 flex justify-between items-center">
         <div className="flex flex-col">
           <p className="text-[10px] font-black text-primary-600 uppercase tracking-[0.2em] mb-0.5">
@@ -39,12 +39,12 @@ export default function Header() {
           <div className="relative">
             <button
               onClick={() => setShowDropdown(!showDropdown)}
-              className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
             >
               <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-medium">
                 {user?.name?.charAt(0).toUpperCase() || 'U'}
               </div>
-              <span className="hidden md:block text-gray-700">{user?.name}</span>
+              <span className="hidden md:block text-gray-700 dark:text-gray-200">{user?.name}</span>
             </button>
 
             {showDropdown && (
@@ -53,14 +53,14 @@ export default function Header() {
                   className="fixed inset-0 z-10"
                   onClick={() => setShowDropdown(false)}
                 />
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-20">
-                  <div className="p-4 border-b border-gray-200">
-                    <p className="font-medium text-gray-800">{user?.name}</p>
-                    <p className="text-sm text-gray-500">{user?.email}</p>
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-700 z-20">
+                  <div className="p-4 border-b border-gray-200 dark:border-slate-700">
+                    <p className="font-medium text-gray-800 dark:text-gray-100">{user?.name}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{user?.email}</p>
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center space-x-2 px-4 py-3 text-left text-red-600 hover:bg-red-50 transition-colors rounded-b-lg"
+                    className="w-full flex items-center space-x-2 px-4 py-3 text-left text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors rounded-b-lg"
                   >
                     <LogOut size={18} />
                     <span>Logout</span>

@@ -1,9 +1,13 @@
-import { FileCheck, Clock, AlertCircle, CheckCircle2, XCircle, MessageCircle } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { FileCheck, Clock, AlertCircle, CheckCircle2, XCircle, MessageCircle, MessageSquare } from 'lucide-react'
 import StatCard from '../../components/StatCard'
 import { useState } from 'react'
 import { mockAPI } from '../../services/mockAPI'
+import FileUpload from '../../components/FileUpload'
+import { ChevronRight } from 'lucide-react'
 
 export default function MessengerDashboard({ user, stats, projects, tasks, t, getStatusColor }) {
+    const navigate = useNavigate()
     const [selectedProject, setSelectedProject] = useState(null)
     const [status, setStatus] = useState('pending')
     const [comment, setComment] = useState('')
@@ -47,6 +51,19 @@ export default function MessengerDashboard({ user, stats, projects, tasks, t, ge
                 <StatCard title={t('pendingApprovals')} value={projects.filter(p => !p.architecturalApproved).length} icon={Clock} color="yellow" />
                 <StatCard title={t('totalSubmissions')} value={projects.length} icon={FileCheck} color="primary" />
                 <StatCard title={t('deniedItems')} value={0} icon={AlertCircle} color="rose" />
+                <button
+                    onClick={() => navigate('/app/messages')}
+                    className="card flex items-center justify-between p-6 hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-all group border-l-4 border-l-primary-600"
+                >
+                    <div className="flex items-center space-x-3">
+                        <MessageSquare className="text-primary-600" size={24} />
+                        <div>
+                            <p className="text-sm font-black dark:text-white uppercase tracking-tight">Open Messaging</p>
+                            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Connect with team</p>
+                        </div>
+                    </div>
+                    <ChevronRight className="text-slate-300 group-hover:text-primary-600 transform group-hover:translate-x-1 transition-transform" />
+                </button>
             </div>
 
             <div className="card dark:bg-slate-800">
@@ -88,6 +105,20 @@ export default function MessengerDashboard({ user, stats, projects, tasks, t, ge
                             ))}
                         </tbody>
                     </table>
+                </div>
+
+                <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-700">
+                    <h3 className="text-xl font-black mb-6 dark:text-white uppercase tracking-tight">Upload Official Stamps / Documents</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                        <FileUpload
+                            label="Upload Official Certification"
+                            onUploadComplete={(url) => alert(`Official document uploaded at: ${url}`)}
+                        />
+                        <div className="bg-slate-50 dark:bg-slate-900/30 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-700">
+                            <p className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 text-center">Reference Image</p>
+                            <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=300" className="w-full h-40 object-cover rounded-2xl grayscale opacity-50" alt="Ref" />
+                        </div>
+                    </div>
                 </div>
             </div>
 

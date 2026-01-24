@@ -158,7 +158,7 @@ export default function Projects() {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                   <Link
-                    to={`/projects/${project.id}`}
+                    to={`/app/projects/${project.id}`}
                     className="text-xl font-semibold text-gray-800 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                   >
                     {project.name}

@@ -13,6 +13,8 @@ import Team from './pages/Team'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import AIChatBot from './components/AIChatBot'
+import Messaging from './pages/Messaging'
+import Settings from './pages/Settings'
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth()
@@ -52,6 +54,8 @@ function AppRoutes() {
           <Route path="tasks" element={<Tasks />} />
           <Route path="team" element={<Team />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="messages" element={<Messaging />} />
+          <Route path="settings" element={<Settings />} />
           <Route path="*" element={<Navigate to="/app/projects" replace />} />
         </Route>
 

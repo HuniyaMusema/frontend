@@ -6,7 +6,7 @@ import { mockAPI } from '../services/mockAPI'
 import {
   Calendar, Clock, User, CheckCircle2, AlertCircle,
   ArrowLeft, MoreVertical, Plus, FileText, Download,
-  Settings, Users, BarChart3, Layers, Receipt, ShieldCheck
+  Settings, Users, BarChart3, Layers, Receipt, ShieldCheck, MessageSquare
 } from 'lucide-react'
 import { hasPermission } from '../utils/permissions'
 import VideoChatLauncher from '../components/VideoChatLauncher'
@@ -378,10 +378,17 @@ export default function ProjectDetail() {
                       <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center text-gray-500 font-bold group-hover:bg-primary-600 group-hover:text-white transition-all shadow-sm">
                         {member.name.charAt(0)}
                       </div>
-                      <div>
-                        <span className="text-sm font-bold text-gray-700 dark:text-gray-300 block">{member.name}</span>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-sm font-bold text-gray-700 dark:text-gray-300 block truncate">{member.name}</span>
                         <span className="text-[10px] text-gray-400 uppercase font-black tracking-tighter">{member.role}</span>
                       </div>
+                      <button
+                        onClick={() => navigate('/app/messages')}
+                        className="p-2 text-gray-400 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-xl transition-all"
+                        title="Send Message"
+                      >
+                        <MessageSquare size={16} />
+                      </button>
                     </div>
                   ))}
                   {teamMembers.length <= 1 && (

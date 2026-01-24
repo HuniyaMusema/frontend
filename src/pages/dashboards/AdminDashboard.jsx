@@ -1,7 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { FolderKanban, ListTodo, Users, TrendingUp, ChevronRight, BrainCircuit, Activity, ShieldCheck, Mail, Bell, Settings, Zap } from 'lucide-react'
+import { FolderKanban, ListTodo, Users, TrendingUp, ChevronRight, BrainCircuit, Activity, ShieldCheck, Mail, Bell, Settings, Zap, MessageSquare } from 'lucide-react'
 import StatCard from '../../components/StatCard'
 import ReportGraphs from '../../components/ReportGraphs'
+import FileUpload from '../../components/FileUpload'
+import { useState } from 'react'
 
 export default function AdminDashboard({ user, stats, projects, tasks, t, getStatusColor }) {
     const navigate = useNavigate()
@@ -72,6 +74,7 @@ export default function AdminDashboard({ user, stats, projects, tasks, t, getSta
                             { name: 'System Settings', path: '/app/settings', icon: Settings },
                             { name: 'Audit Global Logs', path: '/app/analytics', icon: Activity },
                             { name: 'Backup Data', path: '/app/settings', icon: ShieldCheck },
+                            { name: 'Open Messaging', path: '/app/messages', icon: MessageSquare },
                             { name: 'Send Broadcast', path: '/app/messages', icon: Mail }
                         ].map((item, i) => (
                             <button
@@ -92,6 +95,21 @@ export default function AdminDashboard({ user, stats, projects, tasks, t, getSta
 
             {/* Global Report Graphs */}
             <ReportGraphs user={user} stats={stats} projects={projects} tasks={tasks} />
+
+            {/* Admin Upload Section */}
+            <div className="card dark:bg-slate-800 border-t-4 border-t-primary-600 mt-8">
+                <h3 className="text-xl font-black mb-6 dark:text-white uppercase tracking-tight">System Data & Reports Management</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <FileUpload
+                        label="Upload System Audit / Backup"
+                        onUploadComplete={(url) => alert(`Audit file uploaded: ${url}`)}
+                        accept=".pdf,.zip,.json"
+                    />
+                    <p className="text-sm text-slate-500 font-medium leading-relaxed italic">
+                        Administrators can use this module to upload sensitive system logs, manual backups, or compliance certificates directly to the master server.
+                    </p>
+                </div>
+            </div>
         </div>
     )
 }

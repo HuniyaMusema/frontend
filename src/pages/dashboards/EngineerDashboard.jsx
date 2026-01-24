@@ -1,11 +1,25 @@
-import { Link } from 'react-router-dom'
-import { CheckSquare, FolderKanban, TrendingUp, CheckCircle2, Calendar, ChevronRight, Layers, ExternalLink } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { CheckSquare, FolderKanban, TrendingUp, CheckCircle2, Calendar, ChevronRight, Layers, ExternalLink, MessageSquare } from 'lucide-react'
 import StatCard from '../../components/StatCard'
 import ReportGraphs from '../../components/ReportGraphs'
 import VideoChatLauncher from '../../components/VideoChatLauncher'
+import FileUpload from '../../components/FileUpload'
+import { useState } from 'react'
 
 export default function EngineerDashboard({ user, stats, projects, tasks, t, getStatusColor }) {
+    const navigate = useNavigate()
     const discipline = user?.role?.split('-')[0] // civil, electrical, hydraulic
+    const [localDrawings, setLocalDrawings] = useState([])
+
+    const handleUploadComplete = (url) => {
+        const newDrawing = {
+            id: Date.now(),
+            url: url,
+            name: `${discipline.toUpperCase()} Design - ${new Date().toLocaleDateString()}`,
+            status: 'pending'
+        }
+        setLocalDrawings(prev => [newDrawing, ...prev])
+    }
 
     return (
         <div className="space-y-8 animate-in slide-in-from-left-4 duration-500">
@@ -49,6 +63,37 @@ export default function EngineerDashboard({ user, stats, projects, tasks, t, get
                             </div>
                         ))}
                     </div>
+
+                    <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-700">
+                        <h3 className="text-xl font-black mb-6 dark:text-white uppercase tracking-tight">Upload {discipline} Designs</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                            <FileUpload
+                                label={`Upload Technical Drawing (${discipline})`}
+                                onUploadComplete={handleUploadComplete}
+                            />
+                            <div className="space-y-4">
+                                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Recent Uploads</p>
+                                {localDrawings.length > 0 ? localDrawings.map(drawing => (
+                                    <div key={drawing.id} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900/30 rounded-2xl border border-slate-100 dark:border-slate-700">
+                                        <div className="flex items-center space-x-3">
+                                            <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center text-primary-600">
+                                                <Layers size={20} />
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-black text-slate-800 dark:text-white">{drawing.name}</p>
+                                                <p className="text-[10px] text-emerald-600 font-bold uppercase">{drawing.status}</p>
+                                            </div>
+                                        </div>
+                                        <button className="p-2 hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-colors">
+                                            <ExternalLink size={16} className="text-slate-400" />
+                                        </button>
+                                    </div>
+                                )) : (
+                                    <p className="text-sm text-slate-400 italic">No designs uploaded in this session.</p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="space-y-6">
@@ -67,9 +112,16 @@ export default function EngineerDashboard({ user, stats, projects, tasks, t, get
                                     <p className="text-xs text-white/70 uppercase tracking-widest font-bold font-display">{user?.role}</p>
                                 </div>
                             </div>
-                            <Link to="/app/profile" className="w-full py-4 bg-white/10 hover:bg-white/20 rounded-2xl text-center block font-black uppercase tracking-widest text-[10px] transition-all border border-white/10">
+                            <Link to="/app/profile" className="w-full py-4 bg-white/10 hover:bg-white/20 rounded-2xl text-center block font-black uppercase tracking-widest text-[10px] transition-all border border-white/10 mb-4">
                                 Update Availability
                             </Link>
+
+                            <button
+                                onClick={() => navigate('/app/messages')}
+                                className="w-full py-4 bg-primary-700 hover:bg-primary-900 rounded-2xl text-center block font-black uppercase tracking-widest text-[10px] transition-all shadow-lg"
+                            >
+                                Contact Project Manager
+                            </button>
                         </div>
                     </div>
                 </div>

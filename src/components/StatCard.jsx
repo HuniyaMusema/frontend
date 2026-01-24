@@ -10,18 +10,20 @@ export default function StatCard({ title, value, icon: Icon, color, footer }) {
     }
 
     return (
-        <div className="card dark:bg-gray-800 dark:border-gray-700">
+        <div className="card dark:bg-slate-800 animate-premium">
             <div className="flex items-center justify-between">
                 <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{title}</p>
-                    <p className="text-2xl font-bold text-gray-800 dark:text-gray-100 mt-1">{value || 0}</p>
+                    <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">{title}</p>
+                    <p className="text-3xl font-black text-slate-800 dark:text-white mt-2 tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
+                        {value || 0}
+                    </p>
                 </div>
-                <div className={`p-3 rounded-lg ${colorClasses[color] || colorClasses.primary}`}>
+                <div className={`p-4 rounded-2xl shadow-sm ${colorClasses[color] || colorClasses.primary}`}>
                     <Icon size={24} />
                 </div>
             </div>
             {footer && (
-                <div className="mt-4 flex items-center text-xs text-gray-500 dark:text-gray-400">
+                <div className="mt-6 flex items-center text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest border-t border-slate-50 dark:border-slate-700/50 pt-4">
                     {footer}
                 </div>
             )}

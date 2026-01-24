@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../context/LanguageContext'
 import { mockAPI } from '../services/mockAPI'
-import { Plus, Search, Mail, Phone, User as UserIcon, MoreHorizontal, UserPlus, X } from 'lucide-react'
+import { Plus, Search, Mail, Phone, User as UserIcon, MoreHorizontal, UserPlus, X, MessageSquare, Edit, Trash2, Eye } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { ROLES, hasPermission } from '../utils/permissions'
 
 export default function Team() {
@@ -14,6 +15,8 @@ export default function Team() {
   const [searchTerm, setSearchTerm] = useState('')
   const [showAddMember, setShowAddMember] = useState(false)
   const [newMember, setNewMember] = useState({ name: '', email: '', phone: '', role: 'architect', password: '' })
+  const [activeDropdown, setActiveDropdown] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     loadData()
@@ -152,10 +155,56 @@ export default function Team() {
                   <td className="py-4 text-sm text-gray-600 dark:text-gray-400">
                     {new Date(member.joinedAt).toLocaleDateString()}
                   </td>
-                  <td className="py-4 text-right">
-                    <button className="p-2 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  <td className="py-4 text-right overflow-visible relative">
+                    <button
+                      onClick={() => setActiveDropdown(activeDropdown === member.id ? null : member.id)}
+                      className="p-2 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                    >
                       <MoreHorizontal size={18} />
                     </button>
+
+                    {activeDropdown === member.id && (
+                      <>
+                        <div
+                          className="fixed inset-0 z-10"
+                          onClick={() => setActiveDropdown(null)}
+                        />
+                        <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 z-20 py-2 animate-in fade-in zoom-in-95 duration-200">
+                          <button
+                            onClick={() => {
+                              navigate('/app/messages')
+                              setActiveDropdown(null)
+                            }}
+                            className="w-full flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 transition-colors"
+                          >
+                            <MessageSquare size={16} />
+                            <span className="font-bold uppercase tracking-widest text-[10px]">Send Message</span>
+                          </button>
+                          <button
+                            onClick={() => setActiveDropdown(null)}
+                            className="w-full flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 transition-colors"
+                          >
+                            <Eye size={16} />
+                            <span className="font-bold uppercase tracking-widest text-[10px]">View Detail</span>
+                          </button>
+                          <button
+                            onClick={() => setActiveDropdown(null)}
+                            className="w-full flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 transition-colors"
+                          >
+                            <Edit size={16} />
+                            <span className="font-bold uppercase tracking-widest text-[10px]">Edit Roles</span>
+                          </button>
+                          <div className="h-px bg-gray-100 dark:bg-gray-700 my-1" />
+                          <button
+                            onClick={() => setActiveDropdown(null)}
+                            className="w-full flex items-center space-x-3 px-4 py-2.5 text-sm text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors"
+                          >
+                            <Trash2 size={16} />
+                            <span className="font-bold uppercase tracking-widest text-[10px]">Archive User</span>
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -228,12 +277,13 @@ export default function Team() {
                   value={newMember.role}
                   onChange={(e) => setNewMember({ ...newMember, role: e.target.value })}
                 >
-                  <option value="admin">Project Manager</option>
+                  <option value="project-manager">Project Manager</option>
                   <option value="architect">Architect</option>
                   <option value="civil-engineer">Civil Engineer</option>
                   <option value="electrical-engineer">Electrical Engineer</option>
                   <option value="hydraulic-engineer">Hydraulic Engineer</option>
                   <option value="messenger">Messenger</option>
+                  <option value="client">Client</option>
                 </select>
               </div>
               <div className="flex space-x-3 pt-4">

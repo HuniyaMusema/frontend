@@ -16,11 +16,12 @@ export default function Home() {
     const { theme, toggleTheme } = useTheme()
 
     // Protected redirect: If logged in, go straight to app
-    useEffect(() => {
-        if (user) {
-            navigate('/app/projects')
-        }
-    }, [user, navigate])
+    // Protected redirect: If logged in, we stay on site but allow visiting landing
+    // useEffect(() => {
+    //     if (user) {
+    //         navigate('/app/projects')
+    //     }
+    // }, [user, navigate])
 
     const handleStart = () => {
         if (user) {
@@ -84,6 +85,8 @@ export default function Home() {
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full opacity-10 pointer-events-none">
                     <div className="absolute top-20 right-0 w-96 h-96 bg-primary-500 rounded-full blur-[120px]"></div>
                     <div className="absolute bottom-20 left-0 w-96 h-96 bg-blue-500 rounded-full blur-[120px]"></div>
+                    {/* Architectural Grid Pattern */}
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
                 </div>
 
                 <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -92,7 +95,9 @@ export default function Home() {
                         <span>Master Consulting Construction PLC</span>
                     </div>
                     <h1 className="text-5xl md:text-7xl font-black text-gray-900 dark:text-gray-100 mb-8 leading-[1.1] tracking-tight">
-                        Streamline Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-blue-600">Construction Projects</span> with Takamul
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-blue-600 uppercase">Takamul Project Management</span>
+                        <br />
+                        <span className="text-2xl md:text-3xl block mt-4 text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em]">For Master Consultin Construction PLC</span>
                     </h1>
                     <p className="text-xl text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed font-medium">
                         The next generation project management system designed for architectural brilliance and engineering precision.

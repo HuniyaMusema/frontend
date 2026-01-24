@@ -1,8 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { FolderKanban, ListTodo, Users, TrendingUp, ChevronRight, BrainCircuit, Zap, ShieldCheck } from 'lucide-react'
+import { FolderKanban, ListTodo, Users, TrendingUp, ChevronRight, BrainCircuit, Zap, ShieldCheck, MessageSquare } from 'lucide-react'
 import StatCard from '../../components/StatCard'
 import ReportGraphs from '../../components/ReportGraphs'
 import VideoChatLauncher from '../../components/VideoChatLauncher'
+import FileUpload from '../../components/FileUpload'
+import { useState } from 'react'
 
 export default function ProjectManagerDashboard({ user, stats, projects, tasks, t, getStatusColor }) {
     const navigate = useNavigate()
@@ -60,6 +62,22 @@ export default function ProjectManagerDashboard({ user, stats, projects, tasks, 
                 <div className="space-y-6">
                     <VideoChatLauncher role={user?.role} />
 
+                    <div className="card dark:bg-slate-800 border-l-4 border-primary-600">
+                        <h3 className="text-lg font-black mb-4 dark:text-white flex items-center space-x-2">
+                            <MessageSquare className="text-primary-600" size={20} />
+                            <span>Quick Chat</span>
+                        </h3>
+                        <p className="text-sm text-slate-500 mb-6 leading-relaxed">
+                            Need to coordinate? Message your tech team or clients directly.
+                        </p>
+                        <button
+                            onClick={() => navigate('/app/messages')}
+                            className="w-full btn-primary py-4"
+                        >
+                            Open Conversations
+                        </button>
+                    </div>
+
                     <div className="card dark:bg-slate-800">
                         <h3 className="text-lg font-black mb-6 dark:text-white flex items-center space-x-2">
                             <ShieldCheck className="text-primary-600" size={20} />
@@ -87,6 +105,26 @@ export default function ProjectManagerDashboard({ user, stats, projects, tasks, 
             </div>
 
             <ReportGraphs user={user} stats={stats} projects={projects} tasks={tasks} />
+
+            {/* PM Document Upload */}
+            <div className="card dark:bg-slate-800 mt-8 bg-gradient-to-tr from-slate-50 to-white dark:from-slate-900/50 dark:to-slate-800">
+                <h3 className="text-xl font-black mb-6 dark:text-white uppercase tracking-tight">Project Repository Upload</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <FileUpload
+                        label="Upload Master Project Document"
+                        onUploadComplete={(url) => alert(`Master document uploaded: ${url}`)}
+                    />
+                    <div className="space-y-4">
+                        <p className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight">Supported Categories:</p>
+                        <ul className="text-xs text-slate-500 space-y-2 font-medium">
+                            <li>• Site Inspection Reports</li>
+                            <li>• Resource Allocation Plans</li>
+                            <li>• Budget Verification Sheets</li>
+                            <li>• Client Meeting Minutes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

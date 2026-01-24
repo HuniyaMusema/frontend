@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom'
-import { FolderKanban, TrendingUp, CheckCircle2, ChevronRight, Image, CreditCard, UploadCloud, CheckCircle, XCircle } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { FolderKanban, TrendingUp, CheckCircle2, ChevronRight, Image, CreditCard, UploadCloud, CheckCircle, XCircle, MessageSquare } from 'lucide-react'
 import StatCard from '../../components/StatCard'
 import ReportGraphs from '../../components/ReportGraphs'
 import VideoChatLauncher from '../../components/VideoChatLauncher'
+import FileUpload from '../../components/FileUpload'
 import { useState } from 'react'
 import { mockAPI } from '../../services/mockAPI'
 import { useAuth } from '../../context/AuthContext'
@@ -10,6 +11,23 @@ import { useAuth } from '../../context/AuthContext'
 export default function ClientDashboard({ user, stats, projects, tasks, t, getStatusColor }) {
     const [activeTab, setActiveTab] = useState('progress')
     const { user: currentUser } = useAuth()
+    const navigate = useNavigate()
+
+    const handleUploadReceipt = async (url) => {
+        try {
+            // Find an active project to upload to for this client
+            const activeProject = projects.find(p => !p.receiptUrl)
+            if (activeProject) {
+                await mockAPI.uploadReceipt(activeProject.id, url)
+                alert('Receipt uploaded successfully! Verification is pending.')
+                window.location.reload()
+            } else {
+                alert('No pending project found for receipt upload. However, your file has been uploaded to the system.')
+            }
+        } catch (error) {
+            console.error('Error uploading receipt:', error)
+        }
+    }
 
     const handleApproveSketch = async (projectId) => {
         try {
@@ -124,15 +142,12 @@ export default function ClientDashboard({ user, stats, projects, tasks, t, getSt
                                         <CreditCard className="text-primary-600" size={20} />
                                         <span>Payment tracking</span>
                                     </h3>
-                                    <p className="text-sm text-slate-500 mb-6 font-medium">Upload your receipts or invoices to verify payments.</p>
-                                    <div
-                                        onClick={() => alert('Opening File Uploader for Receipts...')}
-                                        className="border-2 border-dashed border-primary-200 dark:border-primary-800 rounded-3xl p-10 flex flex-col items-center justify-center bg-white/50 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-900 transition-all group cursor-pointer"
-                                    >
-                                        <UploadCloud size={48} className="text-primary-400 group-hover:scale-110 group-hover:text-primary-600 transition-all" />
-                                        <p className="mt-4 font-black text-slate-800 dark:text-white uppercase tracking-widest text-xs">Drop Invoices / Receipts</p>
-                                        <p className="text-[10px] text-slate-400 font-bold mt-1">PNG, JPG, PDF up to 10MB</p>
-                                    </div>
+                                    <p className="text-sm text-slate-500 mb-8 font-medium">Upload your receipts or invoices to bridge the payment verification gap.</p>
+                                    <FileUpload
+                                        label="Drop Invoices / Receipts"
+                                        onUploadComplete={handleUploadReceipt}
+                                        maxSize={10}
+                                    />
                                 </div>
                             </div>
                         )}
@@ -141,6 +156,22 @@ export default function ClientDashboard({ user, stats, projects, tasks, t, getSt
 
                 <div className="space-y-6">
                     <VideoChatLauncher role={user?.role} />
+
+                    <div className="card dark:bg-slate-800 border-l-4 border-l-primary-600">
+                        <h3 className="text-lg font-black mb-4 dark:text-white flex items-center space-x-2">
+                            <MessageSquare className="text-primary-600" size={20} />
+                            <span>Quick Chat</span>
+                        </h3>
+                        <p className="text-sm text-slate-500 mb-6 leading-relaxed">
+                            Need help? Message your Project Manager or Architect directly.
+                        </p>
+                        <button
+                            onClick={() => navigate('/app/messages')}
+                            className="w-full btn-primary py-4"
+                        >
+                            Open Conversations
+                        </button>
+                    </div>
 
                     <div className="card dark:bg-slate-800 border-l-4 border-l-blue-500">
                         <h3 className="text-lg font-black mb-4 dark:text-white tracking-tight">AI Status Advisor</h3>

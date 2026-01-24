@@ -1,46 +1,26 @@
 import { useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FileText, FolderKanban, TrendingUp, ChevronRight, PenTool, Image as ImageIcon, Video, Plus, MessageSquare, Loader2 } from 'lucide-react'
 import StatCard from '../../components/StatCard'
 import ReportGraphs from '../../components/ReportGraphs'
 import VideoChatLauncher from '../../components/VideoChatLauncher'
+import FileUpload from '../../components/FileUpload'
 
 export default function ArchitectDashboard({ user, stats, projects, tasks, t, getStatusColor }) {
+    const navigate = useNavigate()
     const [uploading, setUploading] = useState(false)
     const [uploadProgress, setUploadProgress] = useState(0)
     const [localSketches, setLocalSketches] = useState([])
     const fileInputRef = useRef(null)
 
-    const handleUploadClick = () => {
-        fileInputRef.current?.click()
-    }
-
-    const handleFileChange = (e) => {
-        const file = e.target.files?.[0]
-        if (!file) return
-
-        setUploading(true)
-        setUploadProgress(0)
-
-        const interval = setInterval(() => {
-            setUploadProgress(prev => {
-                if (prev >= 100) {
-                    clearInterval(interval)
-                    setTimeout(() => {
-                        setUploading(false)
-                        const newSketch = {
-                            id: Date.now(),
-                            url: URL.createObjectURL(file),
-                            version: (projects[0]?.sketches?.length || 0) + localSketches.length + 1,
-                            status: 'pending'
-                        }
-                        setLocalSketches(prevSketches => [newSketch, ...prevSketches])
-                    }, 500)
-                    return 100
-                }
-                return prev + 10
-            })
-        }, 200)
+    const handleUploadComplete = (url) => {
+        const newSketch = {
+            id: Date.now(),
+            url: url,
+            version: (projects[0]?.sketches?.length || 0) + localSketches.length + 1,
+            status: 'pending'
+        }
+        setLocalSketches(prevSketches => [newSketch, ...prevSketches])
     }
 
     const allSketches = [...localSketches, ...(projects[0]?.sketches || [])]
@@ -62,34 +42,16 @@ export default function ArchitectDashboard({ user, stats, projects, tasks, t, ge
                             <p className="text-xs text-slate-500 uppercase tracking-widest font-bold mt-1">Upload & Versioning</p>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <input
-                                type="file"
-                                ref={fileInputRef}
-                                onChange={handleFileChange}
-                                className="hidden"
-                                accept="image/*"
-                            />
-                            <button
-                                onClick={handleUploadClick}
-                                disabled={uploading}
-                                className="p-2 bg-primary-600 text-white rounded-xl shadow-lg shadow-primary-600/20 hover:scale-110 transition-transform disabled:opacity-50"
-                            >
-                                {uploading ? <Loader2 size={20} className="animate-spin" /> : <Plus size={20} />}
-                            </button>
                         </div>
                     </div>
 
-                    {uploading && (
-                        <div className="mb-6 p-4 bg-primary-50 dark:bg-primary-900/10 rounded-2xl border border-primary-100 dark:border-primary-800">
-                            <div className="flex justify-between items-center mb-2">
-                                <span className="text-xs font-black text-primary-600 uppercase">Uploading Sketch...</span>
-                                <span className="text-xs font-black text-primary-600">{uploadProgress}%</span>
-                            </div>
-                            <div className="w-full bg-primary-100 dark:bg-primary-900/50 h-2 rounded-full overflow-hidden">
-                                <div className="bg-primary-600 h-full transition-all duration-300" style={{ width: `${uploadProgress}%` }} />
-                            </div>
-                        </div>
-                    )}
+                    <div className="mb-8">
+                        <FileUpload
+                            label="Upload New Concept Sketch"
+                            onUploadComplete={handleUploadComplete}
+                            className="max-w-md"
+                        />
+                    </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {allSketches.length > 0 ? allSketches.map((sketch) => (
@@ -134,6 +96,12 @@ export default function ArchitectDashboard({ user, stats, projects, tasks, t, ge
                                 </div>
                             </div>
                         </div>
+                        <button
+                            onClick={() => navigate('/app/messages')}
+                            className="w-full btn-primary py-4 mt-6"
+                        >
+                            Open Conversations
+                        </button>
                     </div>
                 </div>
             </div>
